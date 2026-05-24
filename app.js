@@ -15,11 +15,17 @@ function getProductSVG(category, id, name = "") {
     102: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80", // iPhone 15 Pro Max Titanium
     103: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80", // OnePlus 12 Emerald
     104: "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=600&q=80", // Redmi Note 13 Purple
+    105: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80", // iPhone 14 Pro Space Black
+    106: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=600&q=80", // Samsung A54 5G Awesome Graphite
+    107: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80", // Google Pixel 8 Pro Bay Blue
+    108: "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?auto=format&fit=crop&w=600&q=80", // OnePlus Nord CE 4 5G
     
     // Second-Hand Mobiles
     201: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", // Used iPhone 13 Black
     202: "https://images.unsplash.com/photo-1565630916779-e303be97b6f5?auto=format&fit=crop&w=600&q=80", // Used Galaxy S21 Lavender
     203: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80", // Used OnePlus 10 Pro Green
+    204: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80", // Used iPhone 12 Pro Pacific Blue
+    205: "https://images.unsplash.com/photo-1565630916779-e303be97b6f5?auto=format&fit=crop&w=600&q=80", // Used Galaxy S22 Ultra Phantom Black
     
     // UV Glass Tempered
     301: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=600&q=80", // 11D UV Curved Tempered
@@ -32,14 +38,17 @@ function getProductSVG(category, id, name = "") {
     // Accessories
     501: "https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&w=600&q=80", // GaN 65W charger
     502: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=600&q=80", // Type-C Fast Cable
+    503: "https://images.unsplash.com/photo-1588449668338-d1516886359d?auto=format&fit=crop&w=600&q=80", // AirPods Pro Gen 2
+    504: "https://images.unsplash.com/photo-1622445262465-2481c4574875?auto=format&fit=crop&w=600&q=80", // MagSafe Wireless Charger
     
     // Speakers
     601: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80", // Bluetooth Speaker SonicBoom
+    602: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=600&q=80", // JBL Flip 6 Speaker
     
     // Repair Services
     701: "https://images.unsplash.com/photo-1601524909162-be87252be298?auto=format&fit=crop&w=600&q=80"  // Charging Port repair
   };
-  
+
   if (images[id]) return images[id];
   
   // High-quality category base image fallbacks for newly added items from the admin catalog panel
@@ -153,6 +162,96 @@ const INITIAL_PRODUCTS = [
       "Charging": "67W Turbo Charge"
     }
   },
+  {
+    id: 105,
+    name: "Apple iPhone 14 Pro (Space Black, 128GB Storage)",
+    brand: "Apple",
+    category: "mobiles",
+    price: 99999,
+    oldPrice: 129999,
+    discount: 23,
+    rating: 4.8,
+    reviewsCount: 830,
+    inStock: true,
+    stockCount: 6,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Apple",
+      "Model": "iPhone 14 Pro",
+      "Storage": "128 GB",
+      "Color": "Space Black",
+      "Processor": "A16 Bionic",
+      "Camera": "48 MP Main Camera"
+    }
+  },
+  {
+    id: 106,
+    name: "Samsung Galaxy A54 5G (Awesome Graphite, 8GB RAM, 128GB Storage)",
+    brand: "Samsung",
+    category: "mobiles",
+    price: 35499,
+    oldPrice: 41999,
+    discount: 15,
+    rating: 4.5,
+    reviewsCount: 620,
+    inStock: true,
+    stockCount: 14,
+    delivery: "FREE Delivery by Tuesday, 2 PM",
+    specs: {
+      "Brand": "Samsung",
+      "Model": "Galaxy A54 5G",
+      "RAM": "8 GB",
+      "Storage": "128 GB",
+      "Color": "Awesome Graphite",
+      "Battery": "5000 mAh"
+    }
+  },
+  {
+    id: 107,
+    name: "Google Pixel 8 Pro (Bay Blue, 12GB RAM, 128GB Storage)",
+    brand: "Google",
+    category: "mobiles",
+    price: 75999,
+    oldPrice: 106999,
+    discount: 28,
+    rating: 4.6,
+    reviewsCount: 340,
+    inStock: true,
+    stockCount: 5,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Google",
+      "Model": "Pixel 8 Pro",
+      "RAM": "12 GB",
+      "Storage": "128 GB",
+      "Color": "Bay Blue",
+      "Processor": "Google Tensor G3",
+      "Camera": "50 MP + 48 MP + 48 MP Triple Camera"
+    }
+  },
+  {
+    id: 108,
+    name: "OnePlus Nord CE 4 5G (Celadon Marble, 8GB RAM, 128GB Storage)",
+    brand: "OnePlus",
+    category: "mobiles",
+    price: 24999,
+    oldPrice: 26999,
+    discount: 7,
+    rating: 4.4,
+    reviewsCount: 890,
+    inStock: true,
+    stockCount: 15,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "OnePlus",
+      "Model": "Nord CE 4 5G",
+      "RAM": "8 GB",
+      "Storage": "128 GB",
+      "Color": "Celadon Marble",
+      "Battery": "5500 mAh",
+      "Charging": "100W SUPERVOOC"
+    }
+  },
 
   // Second-Hand Mobiles
   {
@@ -224,6 +323,53 @@ const INITIAL_PRODUCTS = [
       "Storage": "128 GB",
       "Condition": "Tested, 100% Functional",
       "Display State": "Flawless Screen",
+      "Warranty": "3 Months Store Warranty"
+    }
+  },
+  {
+    id: 204,
+    name: "Apple iPhone 12 Pro (Pacific Blue, 128GB) - Certified Refurbished",
+    brand: "Apple",
+    category: "second-hand",
+    price: 24999,
+    oldPrice: 49999,
+    discount: 50,
+    rating: 4.3,
+    reviewsCount: 190,
+    inStock: true,
+    stockCount: 4,
+    condition: "Excellent (Minor Scratches)",
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Apple",
+      "Model": "iPhone 12 Pro",
+      "Storage": "128 GB",
+      "Condition": "Grade A Refurbished",
+      "Battery Status": "86% Health",
+      "Warranty": "3 Months Store Warranty"
+    }
+  },
+  {
+    id: 205,
+    name: "Samsung Galaxy S22 Ultra 5G (Phantom Black, 12GB RAM, 256GB Storage) - Certified Refurbished",
+    brand: "Samsung",
+    category: "second-hand",
+    price: 42999,
+    oldPrice: 109999,
+    discount: 60,
+    rating: 4.4,
+    reviewsCount: 150,
+    inStock: true,
+    stockCount: 3,
+    condition: "Excellent (Like New)",
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Samsung",
+      "Model": "Galaxy S22 Ultra (Refurbished)",
+      "RAM": "12 GB",
+      "Storage": "256 GB",
+      "Condition": "Grade A Excellent",
+      "Battery Status": "89% Health",
       "Warranty": "3 Months Store Warranty"
     }
   },
@@ -357,6 +503,48 @@ const INITIAL_PRODUCTS = [
       "Power Rating": "100W PD Compatible"
     }
   },
+  {
+    id: 503,
+    name: "Apple AirPods Pro (2nd Generation) with MagSafe Case (USB-C)",
+    brand: "Apple",
+    category: "accessories",
+    price: 18900,
+    oldPrice: 24900,
+    discount: 24,
+    rating: 4.7,
+    reviewsCount: 1420,
+    inStock: true,
+    stockCount: 15,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Apple",
+      "Model": "AirPods Pro 2",
+      "Connectivity": "Bluetooth 5.3",
+      "Noise Cancellation": "Active Noise Cancellation",
+      "Battery Life": "Up to 6 hours listening time"
+    }
+  },
+  {
+    id: 504,
+    name: "Apple MagSafe Wireless Charger (White, 15W Fast Charge)",
+    brand: "Apple",
+    category: "accessories",
+    price: 3999,
+    oldPrice: 4500,
+    discount: 11,
+    rating: 4.5,
+    reviewsCount: 890,
+    inStock: true,
+    stockCount: 40,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Brand": "Apple",
+      "Model": "MagSafe Charger",
+      "Type": "Wireless Fast Charger",
+      "Max Output": "15W",
+      "Compatibility": "iPhone 12 and newer models"
+    }
+  },
 
   // Speakers
   {
@@ -377,6 +565,26 @@ const INITIAL_PRODUCTS = [
       "Battery Life": "12 Hours playtime",
       "Waterproof": "IPX7 certified",
       "Connectivity": "Bluetooth 5.3 + Aux"
+    }
+  },
+  {
+    id: 602,
+    name: "JBL Flip 6 Portable Waterproof Bluetooth Speaker (Midnight Black, Rich Bass)",
+    brand: "JBL",
+    category: "speakers",
+    price: 9999,
+    oldPrice: 14999,
+    discount: 33,
+    rating: 4.7,
+    reviewsCount: 2450,
+    inStock: true,
+    stockCount: 18,
+    delivery: "FREE Delivery by Tomorrow, 10 PM",
+    specs: {
+      "Power": "30W 2-way Speaker System",
+      "Battery Life": "12 Hours",
+      "Waterproof": "IP67 Dust & Waterproof",
+      "Connectivity": "Bluetooth 5.1"
     }
   },
 
@@ -2896,3 +3104,44 @@ function handleLoginSubmit(event) {
   closeLoginModal();
   alert(`Successfully Logged In as customer: ${contact}! Ready to purchase.`);
 }
+
+// --------------------------------------------------------------------------
+// 17. GLOBAL MODULE FUNCTION BINDINGS TO WINDOW SCOPE
+// --------------------------------------------------------------------------
+window.navigateTo = navigateTo;
+window.navigateToCategoryFilter = navigateToCategoryFilter;
+window.navigateToProductDetail = navigateToProductDetail;
+window.scrollToTop = scrollToTop;
+window.toggleSidebarMenu = toggleSidebarMenu;
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
+window.handleLoginSubmit = handleLoginSubmit;
+window.onCategorySelectSearch = onCategorySelectSearch;
+window.handleSearchKeyPress = handleSearchKeyPress;
+window.executeSearch = executeSearch;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.adjustCartQty = adjustCartQty;
+window.toggleWishlistItem = toggleWishlistItem;
+window.quickBuyNow = quickBuyNow;
+window.addDetailToCart = addDetailToCart;
+window.buyDetailNow = buyDetailNow;
+window.openWizard = openWizard;
+window.onWizardBrandChange = onWizardBrandChange;
+window.onWizardModelChange = onWizardModelChange;
+window.selectWizardService = selectWizardService;
+window.addWizardToCart = addWizardToCart;
+window.selectCheckoutPayment = selectCheckoutPayment;
+window.executePlaceOrder = executePlaceOrder;
+window.changeAdminOrderStatus = changeAdminOrderStatus;
+window.checkPincodeDelivery = checkPincodeDelivery;
+window.setAdminTab = setAdminTab;
+window.deleteAdminProduct = deleteAdminProduct;
+window.openAdminAddProductModal = openAdminAddProductModal;
+window.openAdminEditProductModal = openAdminEditProductModal;
+window.handleProductFormSubmit = handleProductFormSubmit;
+window.updateAdminStock = updateAdminStock;
+window.handleSiteConfigSave = handleSiteConfigSave;
+window.moveSlide = moveSlide;
+window.setSlide = setSlide;
+window.setCategoryFilter = setCategoryFilter;
