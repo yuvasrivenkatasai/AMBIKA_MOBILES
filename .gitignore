@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.gemini/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.system_generated/
+*.log

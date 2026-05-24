@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Tags -->
+  <title>New Ambika Mobiles - Mobiles, UV Glass, Combo Display & Electronics</title>
+  <meta name="description" content="Welcome to New Ambika Mobiles. Shop the latest smartphones, premium second-hand mobiles, professional UV curved glass protection, display combo replacements, speakers, and high-quality accessories. Best prices and expert repair services.">
+  <meta name="keywords" content="Ambika Mobiles, Smart Phones, Second-Hand Mobiles, UV Curved Glass, Combo Displays, Repair Services, Speakers, Accessories">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Font & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       1. TOP HEADER STRIP (Desktop Only)
+       ========================================================================== -->
+  <div class="top-strip">
+    <div class="container top-strip-inner">
+      <div class="top-strip-left">
+        <span id="topStripAddress"><i class="fas fa-map-marker-alt"></i> Store: Main Road, Ambika Complex, Salem</span>
+        <span id="topStripPhone"><i class="fas fa-phone-alt"></i> Call Us: +91 98765 43210</span>
+        <span onclick="navigateTo('home')"><i class="fas fa-tags"></i> Daily Deals & Offers</span>
+      </div>
+      <div class="top-strip-right">
+        <a href="#" onclick="openLoginModal(); return false;"><i class="fas fa-user-circle"></i> Login / Register</a>
+        <a href="#" onclick="navigateTo('orders'); return false;"><i class="fas fa-truck"></i> Track Order</a>
+        <a href="#" onclick="navigateTo('admin'); return false;"><i class="fas fa-user-tie"></i> Seller Central</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. MAIN NAVIGATION HEADER
+       ========================================================================== -->
+  <header class="main-header">
+    <div class="container main-header-inner">
+      
+      <!-- Hamburger Menu for Mobile & Logo -->
+      <div class="flex-align-center" style="gap: 12px;">
+        <button class="hamburger-menu-btn" onclick="toggleSidebarMenu()" id="hamburgerBtn" aria-label="Open Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="shop-logo" onclick="navigateTo('home')">
+          <i class="fas fa-mobile-alt"></i>New Ambika<span>Mobiles</span>
+        </div>
+      </div>
+
+      <!-- Amazon Style Search Bar -->
+      <div class="search-container" id="desktopSearch">
+        <select class="search-select" id="searchCategory" onchange="onCategorySelectSearch()">
+          <option value="all">All Departments</option>
+          <option value="mobiles">New Mobiles</option>
+          <option value="second-hand">Second-Hand Mobiles</option>
+          <option value="uv-glass">UV Curved Glass</option>
+          <option value="combo-display">Combo Displays</option>
+          <option value="accessories">Accessories</option>
+          <option value="speakers">Speakers</option>
+          <option value="repair">Repair Services</option>
+        </select>
+        <div class="search-input-wrapper">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search New Ambika Mobiles..." onkeyup="handleSearchKeyPress(event)">
+        </div>
+        <button class="search-btn" onclick="executeSearch()" aria-label="Submit Search">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Right Side Desktop Actions -->
+      <div class="header-actions">
+        <!-- Account -->
+        <div class="header-act-item" onclick="openLoginModal()">
+          <span class="sub-text">Hello, Guest</span>
+          <span class="main-text">My Account <i class="fas fa-caret-down" style="font-size:10px;"></i></span>
+        </div>
+        <!-- Orders -->
+        <div class="header-act-item" onclick="navigateTo('orders')">
+          <span class="sub-text">Returns</span>
+          <span class="main-text">& Orders</span>
+        </div>
+        <!-- Wishlist -->
+        <div class="header-act-item" onclick="navigateToCategoryFilter('all', 'wishlist')">
+          <span class="sub-text">Favorites</span>
+          <span class="main-text">Wishlist</span>
+        </div>
+        <!-- Cart -->
+        <div class="header-act-item" onclick="navigateTo('cart')" style="padding: 2px 10px;">
+          <div class="cart-icon-wrapper">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartCountBadge">0</span>
+            <span class="main-text" style="align-self: flex-end; margin-left: 2px; margin-bottom: 2px;">Cart</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </header>
+
+  <!-- Mobile Full Width Search Bar -->
+  <div class="container" style="background-color: var(--primary-navy-light); padding: 8px 16px; display: none;" id="mobileSearchWrapper">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <input type="text" class="search-input" id="mobileSearchInput" placeholder="Search Ambika Mobiles..." onkeyup="handleSearchKeyPress(event)">
+      </div>
+      <button class="search-btn" onclick="executeSearch()" aria-label="Submit Search">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       3. HORIZONTAL CATEGORY SUB-NAV STRIP
+       ========================================================================== -->
+  <nav class="category-strip">
+    <div class="container category-strip-inner" id="categoriesNavbar">
+      <div class="cat-item active" onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('mobiles')">Mobiles</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('second-hand')">Second-Hand Mobiles</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('uv-glass')">UV Glass</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('combo-display')">Combo Displays</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('accessories')">Accessories</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('speakers')">Speakers</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('offers')"><i class="fas fa-percent text-red"></i> Offers</div>
+      <div class="cat-item" onclick="navigateToCategoryFilter('repair')">Repair Services</div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       4. DYNAMIC VIEW CARRIER (Single Page App Container)
+       ========================================================================== -->
+  <main id="mainAppContent" style="min-height: 500px; padding: 15px 0;">
+    
+    <!-- Views will be dynamically loaded here by app.js -->
+    
+  </main>
+
+  <!-- ==========================================================================
+       5. COMPREHENSIVE FOOTER
+       ========================================================================== -->
+  <footer class="main-footer">
+    <div class="footer-top-btn" onclick="scrollToTop()">
+      Back to top
+    </div>
+    
+    <div class="container">
+      <div class="footer-links-grid">
+        <div class="footer-links-col">
+          <h5>Shop Categories</h5>
+          <ul>
+            <li><a href="#" onclick="navigateToCategoryFilter('mobiles'); return false;">New Smartphones</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('second-hand'); return false;">Refurbished Mobiles</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('uv-glass'); return false;">UV Curved Glass Protection</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('combo-display'); return false;">High-Quality Screen Combos</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('accessories'); return false;">Chargers & Cables</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h5>Specialty Services</h5>
+          <ul>
+            <li><a href="#" onclick="openWizard('uv-glass'); return false;">Custom UV Glass Ordering</a></li>
+            <li><a href="#" onclick="openWizard('combo'); return false;">Combo Replacement Tool</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('repair'); return false;">Doorstep Repairs Info</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('second-hand'); return false;">Sell Your Old Phone</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h5>Customer Care</h5>
+          <ul>
+            <li><a href="#" onclick="navigateTo('orders'); return false;">Track Your Orders</a></li>
+            <li><a href="#" onclick="navigateTo('cart'); return false;">View Shopping Cart</a></li>
+            <li><a href="#" onclick="navigateToCategoryFilter('all', 'wishlist'); return false;">My Wishlist</a></li>
+            <li><a href="#" onclick="openLoginModal(); return false;">Login / Account Setup</a></li>
+            <li><a href="#" onclick="alert('Help and FAQs details are available at the physical shop. Contact us at +91 98765 43210.'); return false;">Help & Support</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links-col">
+          <h5>Contact Store</h5>
+          <ul style="color:#cccccc;" id="footerContactInfo">
+            <li style="margin-bottom: 12px;">
+              <strong style="color:#ffffff; display:block; font-size:13px; margin-bottom: 4px;">New Ambika Mobiles</strong>
+              Main Road, Shop No. 12,<br>
+              Ambika Complex, Salem - 636001
+            </li>
+            <li style="margin-bottom: 8px;"><i class="fas fa-phone-alt"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@ambikamobiles.com</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2026 New Ambika Mobiles. Designed to Amazon & Flipkart e-commerce standards. All rights reserved.</p>
+        <p style="margin-top: 5px; font-size: 10px; color: #777777;">
+          Developer Gateway: <a href="#" onclick="navigateTo('admin'); return false;" style="color:#ffd814; text-decoration: underline;">Seller Admin Panel</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       6. MOBILE FIXED BOTTOM NAVIGATION BAR (Visible only on <768px viewports)
+       ========================================================================== -->
+  <nav class="mobile-bottom-nav">
+    <div class="mobile-bottom-nav-inner">
+      <div class="mobile-nav-item active" id="mobNavHome" onclick="navigateTo('home')">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </div>
+      <div class="mobile-nav-item" id="mobNavCategories" onclick="navigateToCategoryFilter('all')">
+        <i class="fas fa-th-large"></i>
+        <span>Shop</span>
+      </div>
+      <div class="mobile-nav-item" id="mobNavCart" onclick="navigateTo('cart')">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="mobile-badge" id="mobileCartCountBadge">0</span>
+        <span>Cart</span>
+      </div>
+      <div class="mobile-nav-item" id="mobNavOrders" onclick="navigateTo('orders')">
+        <i class="fas fa-box-open"></i>
+        <span>Orders</span>
+      </div>
+      <div class="mobile-nav-item" id="mobNavAccount" onclick="openLoginModal()">
+        <i class="fas fa-user"></i>
+        <span>Account</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       7. INTERACTIVE LOGIN / REGISTRATION MODAL
+       ========================================================================== -->
+  <div class="admin-modal-overlay" id="loginModal" style="display: none;">
+    <div class="admin-modal-card" style="max-width: 380px;">
+      <div class="modal-header">
+        <h4 id="loginModalTitle"><i class="fas fa-lock" style="color:var(--accent-orange); margin-right:8px;"></i>Sign In</h4>
+        <button class="modal-close-btn" onclick="closeLoginModal()">&times;</button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)">
+        <div class="checkout-form-group">
+          <label for="loginEmail">Email or Mobile Number</label>
+          <input type="text" id="loginEmail" class="checkout-input" placeholder="e.g. 9876543210" required>
+        </div>
+        <div class="checkout-form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="checkout-input" placeholder="Enter password" required>
+        </div>
+        
+        <div style="font-size:12px; margin-bottom: 15px; color: var(--text-medium);">
+          By continuing, you agree to New Ambika Mobiles' Conditions of Use and Privacy Notice.
+        </div>
+        
+        <button type="submit" class="btn-wizard-action" style="background-color: var(--accent-yellow); color: var(--text-dark); border-color:#a88734;">
+          Continue
+        </button>
+      </form>
+      
+      <div style="border-top: 1px solid var(--border-light); margin-top:20px; padding-top:15px; text-align:center;">
+        <div style="font-size:12px; color:var(--text-light); margin-bottom: 10px;">New to Ambika Mobiles?</div>
+        <button onclick="alert('Account creation is automated. Type any mobile and password to continue mock checkout!')" class="btn-modal-cancel" style="width: 100%;">Create your Account</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       8. MOBILE SIDEBAR MENU OVERLAY
+       ========================================================================== -->
+  <div class="admin-modal-overlay" id="mobileSidebarMenu" style="display: none; justify-content: flex-start;">
+    <div style="background-color: var(--primary-navy-light); width: 280px; height: 100%; display: flex; flex-direction: column; animation: slideIn 0.3s ease-out;">
+      <div style="background-color: var(--primary-navy); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; color: white;">
+        <div style="font-size: 16px; font-weight: 700;"><i class="fas fa-user-circle"></i> Hello, Sign in</div>
+        <button class="modal-close-btn" onclick="toggleSidebarMenu()" style="color:white; font-size:24px;">&times;</button>
+      </div>
+      <div style="padding: 15px 0; overflow-y: auto; flex-grow: 1; background-color: var(--bg-white);">
+        
+        <div style="padding: 10px 20px; font-size: 15px; font-weight: 700; border-bottom: 1px solid #f0f0f0; color: var(--text-dark);">
+          Trending Categories
+        </div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('mobiles'); toggleSidebarMenu();"><i class="fas fa-mobile-alt"></i> New Mobiles</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('second-hand'); toggleSidebarMenu();"><i class="fas fa-sync-alt"></i> Second-Hand Mobiles</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('uv-glass'); toggleSidebarMenu();"><i class="fas fa-shield-alt"></i> UV Curved Glass</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('combo-display'); toggleSidebarMenu();"><i class="fas fa-laptop-code"></i> Combo Displays</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('speakers'); toggleSidebarMenu();"><i class="fas fa-volume-up"></i> Speakers & Gadgets</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateToCategoryFilter('repair'); toggleSidebarMenu();"><i class="fas fa-tools"></i> Repair Services</div>
+        
+        <div style="padding: 15px 20px 10px 20px; font-size: 15px; font-weight: 700; border-bottom: 1px solid #f0f0f0; margin-top: 10px; color: var(--text-dark);">
+          Help & Settings
+        </div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="openLoginModal(); toggleSidebarMenu();"><i class="fas fa-user"></i> My Account</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateTo('orders'); toggleSidebarMenu();"><i class="fas fa-box"></i> My Orders</div>
+        <div class="admin-menu-item" style="color:var(--text-dark);" onclick="navigateTo('admin'); toggleSidebarMenu();"><i class="fas fa-user-tie"></i> Seller Central Dashboard</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom CSS for animation inside sidebar overlay -->
+  <style>
+    @keyframes slideIn {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+  </style>
+
+  <!-- ==========================================================================
+       9. CORE APPLICATION SCRIPTS
+       ========================================================================== -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
