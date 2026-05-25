@@ -632,6 +632,7 @@ let state = {
   currentFilterBrand: 'all',
   currentFilterRating: 'all',
   currentFilterPrice: 'all',
+  currentSort: 'default',
   searchQuery: '',
   activeDetailProductId: null,
   activeAdminTab: 'dashboard', // dashboard, orders, products, offers, inventory, customers, settings
@@ -881,6 +882,7 @@ function navigateToCategoryFilter(categoryKey, filterType = "") {
   }
   state.currentFilterPrice = 'all';
   state.currentFilterRating = 'all';
+  state.currentSort = 'default';
   
   // Sync category strip styling
   let catElements = document.querySelectorAll('.cat-item');
@@ -1652,6 +1654,7 @@ function executeSearch() {
   state.currentFilterBrand = 'all';
   state.currentFilterPrice = 'all';
   state.currentFilterRating = 'all';
+  state.currentSort = 'default';
   
   renderView();
 }
@@ -1723,83 +1726,162 @@ function renderCategoryView(container) {
     }
   }
 
+  // 6. Sort logic
+  if (state.currentSort !== 'default') {
+    if (state.currentSort === 'price-asc') {
+      filtered.sort((a, b) => a.price - b.price);
+    } else if (state.currentSort === 'price-desc') {
+      filtered.sort((a, b) => b.price - a.price);
+    } else if (state.currentSort === 'rating-desc') {
+      filtered.sort((a, b) => b.rating - a.rating);
+    }
+  }
+
   let wishlistTitle = state.currentFilterBrand === 'wishlist' ? "My Favorite Wishlist" : "";
   let pageTitle = wishlistTitle || (state.currentCategory === 'all' ? "All Categories Shop" : 
     state.currentCategory.replace('-', ' ').toUpperCase());
 
   let html = `
     <div class="container">
-      <div class="category-page-layout">
+      <div class="category-page-layout filter-dropdowns-layout">
         
-        <!-- SIDEBAR FILTERS (Familiar Amazon Style) -->
-        <aside class="filter-sidebar">
-          <h4 style="font-size:15px; font-weight:700; border-bottom:1px solid #f0f0f0; padding-bottom:8px; margin-bottom:15px;">Filters</h4>
-          
-          <!-- Brands filter group -->
-          <div class="filter-group">
-            <div class="filter-title">Brand / List</div>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="brand-filter" value="all" ${state.currentFilterBrand === 'all' ? 'checked' : ''} onchange="setCategoryFilter('brand', 'all')">
-              <span>All Brands</span>
-            </label>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="brand-filter" value="wishlist" ${state.currentFilterBrand === 'wishlist' ? 'checked' : ''} onchange="setCategoryFilter('brand', 'wishlist')">
-              <span class="text-red"><i class="fas fa-heart"></i> My Wishlist</span>
-            </label>
-            ${BRANDS.map(b => `
-              <label class="filter-checkbox-label">
-                <input type="radio" name="brand-filter" value="${b}" ${state.currentFilterBrand === b ? 'checked' : ''} onchange="setCategoryFilter('brand', '${b}')">
-                <span>${b}</span>
-              </label>
-            `).join('')}
+        <!-- TOP HORIZONTAL FILTER BAR -->
+        <div class="filter-bar-container">
+          <div class="filter-bar">
+            
+            <!-- Brand Filter Dropdown -->
+            <div class="filter-dropdown-wrapper" id="dropdownBrandWrapper">
+              <button class="filter-dropdown-btn" onclick="toggleFilterDropdown('Brand')">
+                <span>Brand: <strong>${state.currentFilterBrand === 'all' ? 'All Brands' : (state.currentFilterBrand === 'wishlist' ? 'Wishlist' : state.currentFilterBrand)}</strong></span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="dropdown-panel" id="panelBrand">
+                <div class="dropdown-panel-header">
+                  <span>Filter by Brand</span>
+                  <button class="dropdown-reset-btn" onclick="selectFilterOption('brand', 'all')">Reset</button>
+                </div>
+                <div class="dropdown-options-list">
+                  <label class="dropdown-option-item ${state.currentFilterBrand === 'all' ? 'active' : ''}">
+                    <input type="radio" name="brand-opt" value="all" ${state.currentFilterBrand === 'all' ? 'checked' : ''} onchange="selectFilterOption('brand', 'all')">
+                    <span>All Brands</span>
+                  </label>
+                  <label class="dropdown-option-item text-red ${state.currentFilterBrand === 'wishlist' ? 'active' : ''}">
+                    <input type="radio" name="brand-opt" value="wishlist" ${state.currentFilterBrand === 'wishlist' ? 'checked' : ''} onchange="selectFilterOption('brand', 'wishlist')">
+                    <span><i class="fas fa-heart" style="margin-right:4px;"></i> My Wishlist</span>
+                  </label>
+                  ${BRANDS.map(b => `
+                    <label class="dropdown-option-item ${state.currentFilterBrand === b ? 'active' : ''}">
+                      <input type="radio" name="brand-opt" value="${b}" ${state.currentFilterBrand === b ? 'checked' : ''} onchange="selectFilterOption('brand', '${b}')">
+                      <span>${b}</span>
+                    </label>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+
+            <!-- Price Filter Dropdown -->
+            <div class="filter-dropdown-wrapper" id="dropdownPriceWrapper">
+              <button class="filter-dropdown-btn" onclick="toggleFilterDropdown('Price')">
+                <span>Price: <strong>${state.currentFilterPrice === 'all' ? 'All Prices' : (state.currentFilterPrice === 'low' ? 'Under ₹2,000' : (state.currentFilterPrice === 'mid' ? '₹2,000 to ₹20,000' : 'Over ₹20,000'))}</strong></span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="dropdown-panel" id="panelPrice">
+                <div class="dropdown-panel-header">
+                  <span>Filter by Price</span>
+                  <button class="dropdown-reset-btn" onclick="selectFilterOption('price', 'all')">Reset</button>
+                </div>
+                <div class="dropdown-options-list">
+                  <label class="dropdown-option-item ${state.currentFilterPrice === 'all' ? 'active' : ''}">
+                    <input type="radio" name="price-opt" value="all" ${state.currentFilterPrice === 'all' ? 'checked' : ''} onchange="selectFilterOption('price', 'all')">
+                    <span>All Prices</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentFilterPrice === 'low' ? 'active' : ''}">
+                    <input type="radio" name="price-opt" value="low" ${state.currentFilterPrice === 'low' ? 'checked' : ''} onchange="selectFilterOption('price', 'low')">
+                    <span>Under ₹2,000</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentFilterPrice === 'mid' ? 'active' : ''}">
+                    <input type="radio" name="price-opt" value="mid" ${state.currentFilterPrice === 'mid' ? 'checked' : ''} onchange="selectFilterOption('price', 'mid')">
+                    <span>₹2,000 to ₹20,000</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentFilterPrice === 'high' ? 'active' : ''}">
+                    <input type="radio" name="price-opt" value="high" ${state.currentFilterPrice === 'high' ? 'checked' : ''} onchange="selectFilterOption('price', 'high')">
+                    <span>Over ₹20,000</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rating Filter Dropdown -->
+            <div class="filter-dropdown-wrapper" id="dropdownRatingWrapper">
+              <button class="filter-dropdown-btn" onclick="toggleFilterDropdown('Rating')">
+                <span>Rating: <strong>${state.currentFilterRating === 'all' ? 'All Ratings' : (state.currentFilterRating + ' ★ & Up')}</strong></span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="dropdown-panel" id="panelRating">
+                <div class="dropdown-panel-header">
+                  <span>Filter by Customer Rating</span>
+                  <button class="dropdown-reset-btn" onclick="selectFilterOption('rating', 'all')">Reset</button>
+                </div>
+                <div class="dropdown-options-list">
+                  <label class="dropdown-option-item ${state.currentFilterRating === 'all' ? 'active' : ''}">
+                    <input type="radio" name="rating-opt" value="all" ${state.currentFilterRating === 'all' ? 'checked' : ''} onchange="selectFilterOption('rating', 'all')">
+                    <span>Show All Ratings</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentFilterRating === '4' ? 'active' : ''}">
+                    <input type="radio" name="rating-opt" value="4" ${state.currentFilterRating === '4' ? 'checked' : ''} onchange="selectFilterOption('rating', '4')">
+                    <span class="dropdown-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> & Up</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentFilterRating === '3' ? 'active' : ''}">
+                    <input type="radio" name="rating-opt" value="3" ${state.currentFilterRating === '3' ? 'checked' : ''} onchange="selectFilterOption('rating', '3')">
+                    <span class="dropdown-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i> & Up</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sort By Dropdown -->
+            <div class="filter-dropdown-wrapper sort-by-wrapper" id="dropdownSortWrapper">
+              <button class="filter-dropdown-btn sort-btn" onclick="toggleFilterDropdown('Sort')">
+                <span>Sort: <strong>${state.currentSort === 'default' ? 'Featured' : (state.currentSort === 'price-asc' ? 'Price: Low to High' : (state.currentSort === 'price-desc' ? 'Price: High to Low' : 'Highest Rated'))}</strong></span>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="dropdown-panel dropdown-panel-right" id="panelSort">
+                <div class="dropdown-panel-header">
+                  <span>Sort Results By</span>
+                </div>
+                <div class="dropdown-options-list">
+                  <label class="dropdown-option-item ${state.currentSort === 'default' ? 'active' : ''}">
+                    <input type="radio" name="sort-opt" value="default" ${state.currentSort === 'default' ? 'checked' : ''} onchange="selectFilterOption('sort', 'default')">
+                    <span>Featured (Default)</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentSort === 'price-asc' ? 'active' : ''}">
+                    <input type="radio" name="sort-opt" value="price-asc" ${state.currentSort === 'price-asc' ? 'checked' : ''} onchange="selectFilterOption('sort', 'price-asc')">
+                    <span>Price: Low to High</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentSort === 'price-desc' ? 'active' : ''}">
+                    <input type="radio" name="sort-opt" value="price-desc" ${state.currentSort === 'price-desc' ? 'checked' : ''} onchange="selectFilterOption('sort', 'price-desc')">
+                    <span>Price: High to Low</span>
+                  </label>
+                  <label class="dropdown-option-item ${state.currentSort === 'rating-desc' ? 'active' : ''}">
+                    <input type="radio" name="sort-opt" value="rating-desc" ${state.currentSort === 'rating-desc' ? 'checked' : ''} onchange="selectFilterOption('sort', 'rating-desc')">
+                    <span>Customer Rating</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <!-- Price range filter group -->
-          <div class="filter-group">
-            <div class="filter-title">Price Range</div>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="price-filter" value="all" ${state.currentFilterPrice === 'all' ? 'checked' : ''} onchange="setCategoryFilter('price', 'all')">
-              <span>All Prices</span>
-            </label>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="price-filter" value="low" ${state.currentFilterPrice === 'low' ? 'checked' : ''} onchange="setCategoryFilter('price', 'low')">
-              <span>Under ₹2,000</span>
-            </label>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="price-filter" value="mid" ${state.currentFilterPrice === 'mid' ? 'checked' : ''} onchange="setCategoryFilter('price', 'mid')">
-              <span>₹2,000 to ₹20,000</span>
-            </label>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="price-filter" value="high" ${state.currentFilterPrice === 'high' ? 'checked' : ''} onchange="setCategoryFilter('price', 'high')">
-              <span>Over ₹20,000</span>
-            </label>
-          </div>
-
-          <!-- Ratings filter group -->
-          <div class="filter-group">
-            <div class="filter-title">Customer Review</div>
-            <label class="filter-checkbox-label">
-              <input type="radio" name="rating-filter" value="all" ${state.currentFilterRating === 'all' ? 'checked' : ''} onchange="setCategoryFilter('rating', 'all')">
-              <span>Show All</span>
-            </label>
-            <label class="filter-checkbox-label" onclick="setCategoryFilter('rating', '4')">
-              <input type="radio" name="rating-filter" value="4" ${state.currentFilterRating === '4' ? 'checked' : ''}>
-              <span class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i> & Up</span>
-            </label>
-            <label class="filter-checkbox-label" onclick="setCategoryFilter('rating', '3')">
-              <input type="radio" name="rating-filter" value="3" ${state.currentFilterRating === '3' ? 'checked' : ''}>
-              <span class="rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i> & Up</span>
-            </label>
-          </div>
-
-        </aside>
+          <!-- ACTIVE FILTER CHIPS -->
+          ${renderActiveFilterChipsHTML()}
+        </div>
 
         <!-- PRODUCTS MAIN GRID -->
-        <div>
-          <div class="section-card" style="border:1px solid var(--border-light);">
+        <div class="category-products-container">
+          <div class="section-card" style="border:1px solid var(--border-light); border-radius: var(--radius-md);">
             <div class="section-header" style="margin-bottom: 12px; padding-bottom: 8px;">
-              <h3 style="font-size:16px;">Results for <span style="color:var(--accent-blue);">${pageTitle}</span> (${filtered.length} products found)</h3>
-              <span style="font-size:12px; color:var(--text-light);">Showing Verified Store Stock</span>
+              <h3 style="font-size:16px; font-weight:700;">Results for <span style="color:var(--accent-blue);">${pageTitle}</span> (${filtered.length} products found)</h3>
+              <span style="font-size:12px; color:var(--text-light); font-weight:600;"><i class="fas fa-check-circle text-green" style="margin-right:4px;"></i>Showing Verified Store Stock</span>
             </div>
             
             <div class="product-grid">
@@ -1814,6 +1896,90 @@ function renderCategoryView(container) {
   
   container.innerHTML = html;
 }
+
+function renderActiveFilterChipsHTML() {
+  let activeChips = [];
+  
+  if (state.currentFilterBrand !== 'all') {
+    let brandText = state.currentFilterBrand === 'wishlist' ? 'My Wishlist' : state.currentFilterBrand;
+    activeChips.push(`<span class="filter-chip">Brand: ${brandText} <i class="fas fa-times-circle" onclick="selectFilterOption('brand', 'all')"></i></span>`);
+  }
+  
+  if (state.currentFilterPrice !== 'all') {
+    let priceText = state.currentFilterPrice === 'low' ? 'Under ₹2,000' : (state.currentFilterPrice === 'mid' ? '₹2,000 - ₹20,000' : 'Over ₹20,000');
+    activeChips.push(`<span class="filter-chip">Price: ${priceText} <i class="fas fa-times-circle" onclick="selectFilterOption('price', 'all')"></i></span>`);
+  }
+  
+  if (state.currentFilterRating !== 'all') {
+    activeChips.push(`<span class="filter-chip">Rating: ${state.currentFilterRating}★ & Up <i class="fas fa-times-circle" onclick="selectFilterOption('rating', 'all')"></i></span>`);
+  }
+  
+  if (state.currentSort !== 'default') {
+    let sortText = state.currentSort === 'price-asc' ? 'Price: Low to High' : (state.currentSort === 'price-desc' ? 'Price: High to Low' : 'Highest Rated');
+    activeChips.push(`<span class="filter-chip">Sort: ${sortText} <i class="fas fa-times-circle" onclick="selectFilterOption('sort', 'default')"></i></span>`);
+  }
+  
+  if (activeChips.length === 0) return '';
+  
+  return `
+    <div class="active-filters-chips-row">
+      <span class="chips-label">Active Refinements:</span>
+      <div class="chips-list">
+        ${activeChips.join('')}
+        <button class="clear-all-filters-btn" onclick="clearAllFilters()">Clear All</button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleFilterDropdown(dropdownType) {
+  event.stopPropagation();
+  const targetId = `dropdown${dropdownType}Wrapper`;
+  const wrapper = document.getElementById(targetId);
+  if (!wrapper) return;
+  const isOpen = wrapper.classList.contains('open');
+  
+  closeAllFilterDropdowns();
+  
+  if (!isOpen) {
+    wrapper.classList.add('open');
+  }
+}
+
+function closeAllFilterDropdowns() {
+  const openDropdowns = document.querySelectorAll('.filter-dropdown-wrapper.open');
+  openDropdowns.forEach(dropdown => {
+    dropdown.classList.remove('open');
+  });
+}
+
+function selectFilterOption(type, value) {
+  if (type === 'brand') state.currentFilterBrand = value;
+  if (type === 'price') state.currentFilterPrice = value;
+  if (type === 'rating') state.currentFilterRating = value;
+  if (type === 'sort') state.currentSort = value;
+  
+  closeAllFilterDropdowns();
+  renderView();
+}
+
+function clearAllFilters() {
+  state.currentFilterBrand = 'all';
+  state.currentFilterPrice = 'all';
+  state.currentFilterRating = 'all';
+  state.currentSort = 'default';
+  
+  closeAllFilterDropdowns();
+  renderView();
+}
+
+// Close dropdowns on clicking outside
+document.addEventListener('click', function(event) {
+  const insideDropdown = event.target.closest('.filter-dropdown-wrapper');
+  if (!insideDropdown) {
+    closeAllFilterDropdowns();
+  }
+});
 
 function setCategoryFilter(type, value) {
   if (type === 'brand') state.currentFilterBrand = value;
@@ -3145,3 +3311,8 @@ window.handleSiteConfigSave = handleSiteConfigSave;
 window.moveSlide = moveSlide;
 window.setSlide = setSlide;
 window.setCategoryFilter = setCategoryFilter;
+window.toggleFilterDropdown = toggleFilterDropdown;
+window.closeAllFilterDropdowns = closeAllFilterDropdowns;
+window.selectFilterOption = selectFilterOption;
+window.clearAllFilters = clearAllFilters;
+
